@@ -32,15 +32,15 @@ export const useSearch = (todos: Todo[]) => {
     if (selectedTag.length || search) {
       setFilteredTodos((v) => {
         return (
-          selectedTag.some((tag) => v.tags?.includes(tag)) &&
-          v.title.toLowerCase().startsWith(search.toLowerCase())
+          selectedTag.some((tag) => v.tags?.includes(tag)) ||
+          (!!search && v.title.toLowerCase().startsWith(search.toLowerCase()))
         );
       });
     } else {
       reset();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedTag.length, search]);
+  }, [selectedTag.length, search, todos]);
 
   const onSearch = (value: string) => {
     searchSubject.next(value);
