@@ -2,32 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+* {
+  min-width: 0;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer {
+  .btn {
+    @apply rounded-none;
   }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+  .btn-outline {
+    @apply !border-r-4 !border-b-4 !transition-all duration-100;
+  }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  :hover.btn-outline {
+    @apply !border-r-2 !border-b-2 !bg-transparent !text-base-content;
+  }
+
+  .input-bordered {
+    @apply !border-r-4 !border-b-4 transition-all duration-100 !border-base-content;
+  }
+
+  .textarea-bordered {
+    @apply !border-r-4 !border-b-4 transition-all duration-100 !border-base-content;
+  }
+
+  :focus.input-bordered,
+  :hover.input-bordered,
+  :hover.textarea-bordered,
+  :focus.textarea-bordered {
+    @apply !border-r-2 !border-b-2;
   }
 }
