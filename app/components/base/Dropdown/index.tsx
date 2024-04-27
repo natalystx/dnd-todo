@@ -25,7 +25,7 @@ const Dropdown = ({ buttonNode, menus }: DropdownProps) => {
         tabIndex={0}
         type="button"
         id="lang-dropdown"
-        onClick={(e) => {
+        onClick={(e: any) => {
           e.stopPropagation();
           setIsOpen((prev) => !prev);
         }}

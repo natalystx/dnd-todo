@@ -24,7 +24,7 @@ const SearchSection = ({
         label="Search by todo's title"
         placeholder="Search"
         className="max-w-[500px]"
-        onChange={(e) => {
+        onChange={(e: any) => {
           onSearch(e.target.value);
         }}
       />

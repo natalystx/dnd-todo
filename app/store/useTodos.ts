@@ -36,9 +36,5 @@ export const useTodos = () => {
     setTodos(todos.map((t) => (t.id === todo.id ? todo : t)));
   };
 
-  const tags = useMemo(() => {
-    return Array.from(new Set(todos.flatMap((todo) => todo.tags || [])));
-  }, [todos]);
-
-  return { todos, addTodo, removeTodo, updateTodo, tags, setTodos };
+  return { todos, addTodo, removeTodo, updateTodo, setTodos };
 };

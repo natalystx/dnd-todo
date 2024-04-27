@@ -1,19 +1,25 @@
 import { Todo } from "@/app/store/useTodos";
 import { useFilter } from "@/hooks/useFilter";
-import { set } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { debounceTime, Subject } from "rxjs";
 
 export const useSearch = (todos: Todo[]) => {
-  const tags = useMemo(
-    () => Array.from(new Set(todos.flatMap((todo) => todo.tags || []))),
-    [todos]
-  );
-
   const [search, setSearch] = useState<string>("");
   const searchSubject = useMemo(() => new Subject<string>(), []);
 
   const [selectedTag, setSelectedTag] = useState<string[]>([]);
+
+  const [filtedTodos, setFilteredTodos, reset] = useFilter<Todo>(todos);
+
+  const tags = useMemo(
+    () =>
+      Array.from(new Set((todos || []).flatMap((todo) => todo?.tags || []))),
+    [todos]
+  );
+
+  const formattedFilter = useMemo(() => {
+    return filtedTodos.map((to) => to.id);
+  }, [filtedTodos]);
   const updateTag = (tag: string) => {
     if (selectedTag.includes(tag)) {
       setSelectedTag(selectedTag.filter((t) => t !== tag));
@@ -21,11 +27,7 @@ export const useSearch = (todos: Todo[]) => {
       setSelectedTag([...selectedTag, tag]);
     }
   };
-  const [filtedTodos, setFilteredTodos, reset] = useFilter<Todo>(todos);
 
-  const formattedFilter = useMemo(() => {
-    return filtedTodos.map((to) => to.id);
-  }, [filtedTodos]);
   useEffect(() => {
     if (selectedTag.length || search) {
       setFilteredTodos((v) => {
