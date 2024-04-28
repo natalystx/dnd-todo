@@ -4,7 +4,7 @@ const TodoSection = dynamic(() => import("./components/module/TodoSection"), {
 });
 export default function Home() {
   return (
-    <div className="p-12">
+    <div className="p-6 lg:p-12">
       <TodoSection />
     </div>
   );

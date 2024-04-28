@@ -75,7 +75,7 @@ const TodoSection = () => {
         onDragEnd={handleDragEnd}
         onDragStart={handleDragStart}
       >
-        <div className="overflow-x-auto w-full flex gap-x-8 flex-1">
+        <div className="overflow-x-auto w-full flex gap-x-4 lg:gap-x-8 flex-1">
           {containers.map((name) => (
             <Column
               key={name}

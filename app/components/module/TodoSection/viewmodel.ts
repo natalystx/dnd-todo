@@ -108,5 +108,6 @@ export const useViewModel = () => {
     containers,
     getStatus,
     updateStatus,
+    setTodos,
   };
 };

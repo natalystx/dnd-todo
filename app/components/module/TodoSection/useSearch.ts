@@ -30,12 +30,22 @@ export const useSearch = (todos: Todo[]) => {
 
   useEffect(() => {
     if (selectedTag.length || search) {
-      setFilteredTodos((v) => {
-        return (
-          selectedTag.some((tag) => v.tags?.includes(tag)) ||
-          (!!search && v.title.toLowerCase().startsWith(search.toLowerCase()))
-        );
-      });
+      if (search && !selectedTag.length) {
+        setFilteredTodos((v) => {
+          return v.title.toLowerCase().startsWith(search.toLowerCase());
+        });
+      } else if (search && selectedTag.length) {
+        setFilteredTodos((v) => {
+          return (
+            selectedTag.some((tag) => v.tags?.includes(tag)) &&
+            v.title.toLowerCase().startsWith(search.toLowerCase())
+          );
+        });
+      } else {
+        setFilteredTodos((v) => {
+          return selectedTag.some((tag) => v.tags?.includes(tag));
+        });
+      }
     } else {
       reset();
     }
@@ -59,5 +69,7 @@ export const useSearch = (todos: Todo[]) => {
     formattedFilter,
     selectedTag,
     onSearch,
+    setSelectedTag,
+    search,
   };
 };
