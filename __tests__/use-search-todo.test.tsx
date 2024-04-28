@@ -5,13 +5,17 @@ import { Status, Todo } from "@/app/store/useTodos";
 
 const mockTodos: Todo[] = [
   { id: "1", title: "todo 1", status: Status.NEW, tags: ["tag1", "tag2"] },
-  { id: "2", title: "todo 2", status: Status.DONE, tags: ["tag2"] },
+  { id: "2", title: "todo 2", status: Status.COMPLETED, tags: ["tag2"] },
   { id: "3", title: "todo 3", status: Status.NEW, tags: [] },
 ];
 
-const { result, rerender } = renderHook(() => useSearch(mockTodos));
+let result: any;
+let rerender: any;
 
-beforeEach(async () => {
+beforeEach(() => {
+  const hook = renderHook(() => useSearch(mockTodos));
+  result = hook.result;
+  rerender = hook.rerender;
   result.current.onSearch("");
   result.current.setSelectedTag([]);
 });
@@ -60,13 +64,10 @@ describe("useSearch", () => {
   });
 
   test("should return  todo's ids when tags is matched", async () => {
-    const { result, rerender } = renderHook(() => useSearch(mockTodos));
-
     result.current.setSelectedTag(["tag1"]);
     await waitFor(
       () => {
         rerender();
-        console.log("result.current.search", result.current.search);
 
         expect(result.current.formattedFilter.length).toBe(1);
       },
