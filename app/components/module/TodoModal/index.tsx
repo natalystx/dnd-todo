@@ -90,6 +90,25 @@ const TodoModal = ({ open, setIsOpen, todo, onClose }: TodoModalProps) => {
                 />
               )}
             />
+            <Field
+              name="dueDate"
+              initialValue={todo?.dueDate?.split("T")[0] || ""}
+              render={({ input, meta }) => (
+                <Input
+                  {...input}
+                  type="date"
+                  label="Due date"
+                  placeholder="Due date"
+                  className={cn(
+                    "w-full",
+                    submitFailed && meta.error && "input-error"
+                  )}
+                  showHint={submitFailed && meta.error}
+                  hint={meta.error}
+                  hintClassName="text-error"
+                />
+              )}
+            />
 
             <Button type="submit" className="mt-10">
               {todo?.id ? "Save todo" : "Add todo"}

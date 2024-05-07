@@ -38,7 +38,7 @@ const Modal = ({
           </Dialog.Close>
           <div
             className={cn(
-              "z-[2] my-8 w-full transform overflow-hidden rounded-lg bg-white p-6 align-middle shadow-xl transition-all m-auto",
+              "z-[2] my-8 w-full transform overflow-hidden rounded-lg bg-white p-6 align-middle shadow-xl transition-all m-auto overflow-y-auto",
               className
             )}
           >

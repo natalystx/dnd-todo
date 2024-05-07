@@ -9,6 +9,7 @@ type InputProps = {
   hint?: string;
   showHint?: boolean;
   hintClassName?: string;
+  defaultValue?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input = ({
@@ -18,6 +19,7 @@ const Input = ({
   hint,
   showHint,
   hintClassName,
+  defaultValue,
   ...rest
 }: InputProps) => {
   const id = useId();
@@ -26,7 +28,11 @@ const Input = ({
       <label className="mb-1 text-base font-medium" htmlFor={id}>
         {label}
       </label>
-      <input {...rest} className={cn("input-bordered input", className)} />
+      <input
+        {...rest}
+        className={cn("input-bordered input", className)}
+        defaultValue={defaultValue}
+      />
       {showHint && <p className={cn("text-xs mt-1", hintClassName)}>{hint}</p>}
     </div>
   );

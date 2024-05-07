@@ -10,6 +10,7 @@ import Badge from "../../base/Badge";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import Dropdown, { Menu } from "../../base/Dropdown";
+import AlertModal from "../AlertModal";
 
 type TodoCardProps = {
   todo: Todo;
@@ -40,6 +41,13 @@ const TodoCard = ({
     transition,
   };
 
+  const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+
+  const onDelete = () => {
+    onRemove?.(todo.id);
+    setIsAlertOpen(false);
+  };
+
   const menus: Menu[] = [
     {
       label: "Move to New",
@@ -54,6 +62,12 @@ const TodoCard = ({
       onClick: () => onChangeStatus?.(todo.id, Status.COMPLETED),
     },
   ];
+
+  const formatDate = (date: string) => {
+    if (!date) return "";
+    const isoString = date.split("T")[0];
+    return isoString;
+  };
 
   return (
     <div
@@ -83,14 +97,20 @@ const TodoCard = ({
         <div className="flex gap-x-2 items-center">
           <Button
             className="!btn-sm btn-square"
-            onClick={() => onRemove?.(todo.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsAlertOpen(true);
+            }}
           >
             <IconTrash size={16} />
           </Button>
           <Button
             className="!btn-sm btn-square disabled:bg-transparent"
             disabled={todo.status === Status.COMPLETED}
-            onClick={() => onEdit?.()}
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit?.();
+            }}
           >
             <IconPencil size={16} />
           </Button>
@@ -104,9 +124,20 @@ const TodoCard = ({
           />
         </div>
       </div>
+      <AlertModal
+        open={isAlertOpen}
+        setIsOpen={setIsAlertOpen}
+        onCancel={() => {
+          setIsAlertOpen(false);
+        }}
+        onConfirm={onDelete}
+      />
       <div>
         <p className="prose text-xl font-medium">{todo.title}</p>
         <p className="prose text-sm">{todo.description}</p>
+        <p className="prose text-sm">
+          Due Date: {formatDate(todo.dueDate || "") || ""}
+        </p>
       </div>
 
       {todo.tags && (

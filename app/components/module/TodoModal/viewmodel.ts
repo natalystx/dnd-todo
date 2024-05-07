@@ -8,6 +8,7 @@ export const useViewModel = (close: () => void, todo?: Todo) => {
     title: todo?.title || "",
     description: todo?.description || "",
     tags: todo?.tags?.join(",") || "",
+    dueDate: todo?.dueDate || "",
   };
 
   const { addTodo, updateTodo } = useTodos();
@@ -16,6 +17,7 @@ export const useViewModel = (close: () => void, todo?: Todo) => {
     title: z.string().nonempty("Title is required"),
     description: z.string().optional(),
     tags: z.string().optional(),
+    dueDate: z.string().nonempty("Due date is required"),
   });
 
   const { validate } = useFormValidation(schema);
@@ -30,6 +32,7 @@ export const useViewModel = (close: () => void, todo?: Todo) => {
         title: values.title,
         description: values.description,
         tags: tags,
+        dueDate: new Date().toISOString(),
       });
     } else {
       updateTodo({
